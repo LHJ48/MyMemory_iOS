@@ -6,6 +6,7 @@
 //
 
 import UIKit
+@available(iOS 14.0, *)
 class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let profileImage = UIImageView() // 프로필 사진 이미지
     let tv = UITableView() // 프로필 목록
@@ -54,6 +55,8 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.tv.dataSource = self
         self.tv.delegate = self
         
+        self.view.addSubview(self.tv)
+        
         // 내비게이션 바 숨김 처리
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -69,21 +72,23 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
-        
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 13)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? UITableViewCell(style: .value1, reuseIdentifier: "cell")
+        var content = cell.defaultContentConfiguration()
+        content.textProperties.font = UIFont.systemFont(ofSize: 14)
+        content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 13)
         cell.accessoryType = .disclosureIndicator
         
         switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "이름"
-                cell.detailTextLabel?.text = "이호준 씨"
+                content.text = "이름"
+                content.secondaryText = "이호준 씨"
             case 1:
-                cell.textLabel?.text = "계정"
-                cell.detailTextLabel?.text = "ghwns741@naver.com"
+                content.text = "계정"
+                content.secondaryText = "ghwns741@naver.com"
             default:
                 ()
         }
+        cell.contentConfiguration = content
         return cell
     }
 }
