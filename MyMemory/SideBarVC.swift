@@ -24,6 +24,8 @@ class SideBarVC: UITableViewController {
     let emailLabel = UILabel() // 이메일 레이블
     let profileImage = UIImageView() // 프로필 이미지
     
+    let uinfo = UserInfoManager() // 개인 정보 관리 매니저
+    
     override func viewDidLoad() {
         // 테이블 뷰의 헤더 역할을 할 뷰을 정의한다.
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 70))
@@ -35,7 +37,6 @@ class SideBarVC: UITableViewController {
         
         // 이름 레이블의 속성을 정의하고, 헤더뷰에 추가한다.
         self.nameLabel.frame = CGRect(x: 70, y: 15, width: 100, height: 30) // 위치와 크기를 정의
-        self.nameLabel.text = "이호준"
         self.nameLabel.textColor = .white // 텍스트 색상
         self.nameLabel.font = UIFont.boldSystemFont(ofSize: 15) // 폰트 사이즈
         self.emailLabel.backgroundColor = .clear // 배경 색상
@@ -44,7 +45,6 @@ class SideBarVC: UITableViewController {
         
         // 이메일 레이블의 속성을 정의하고, 헤더 뷰에 추가한다.
         self.emailLabel.frame = CGRect(x: 70, y: 30, width: 150, height: 30) // 위치와 크기를 정의
-        self.emailLabel.text = "ghwns741@naver.com"
         self.emailLabel.textColor = .white
         self.emailLabel.font = UIFont.systemFont(ofSize: 11)
         self.emailLabel.backgroundColor = .clear // 배경 색상
@@ -52,8 +52,8 @@ class SideBarVC: UITableViewController {
         headerView.addSubview(self.emailLabel) // 헤더 뷰에 추가
         
         // 기본 이미지를 구현한다.
-        let defaulttProfile = UIImage(named: "account.jpg")
-        self.profileImage.image = defaulttProfile // 이미지 등록
+        //let defaulttProfile = UIImage(named: "account.jpg")
+        //self.profileImage.image = defaulttProfile // 이미지 등록
         self.profileImage.frame = CGRect(x: 10, y: 10, width: 50, height: 50)
         
         // 추가) 프로필 이미지 둥글게 만들기
@@ -61,6 +61,12 @@ class SideBarVC: UITableViewController {
         self.profileImage.layer.borderWidth = 0 // 테두리 두께 0으로
         self.profileImage.layer.masksToBounds = true // 마스크 효과
         view.addSubview(self.profileImage) // 헤더 뷰에 추가
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.nameLabel.text = self.uinfo.name ?? "Guest"
+        self.emailLabel.text = self.uinfo.account ?? ""
+        self.profileImage.image = self.uinfo.profile
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
